@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button>remote call</button>
+    <div id="book">
+
+    </div>
+<script>
+    window.onload=function () {
+        let btn=document.querySelector("button");
+        btn.onclick=function () {
+            let xhr=new XMLHttpRequest();
+            xhr.onreadystatechange=function () {
+               if(xhr.status==200 && xhr.readyState==4){
+                   let book=JSON.parse(xhr.responseText);
+                   let ul=document.createElement("ul");
+                   let unameli=document.createElement('li');
+                   let ageli=document.createElement('li');
+                   unameli.innerHTML=book.uname;
+                   ageli.innerHTML=book.age;
+                   ul.appendChild(unameli);
+                   ul.appendChild(ageli);
+                   document.getElementById("book").appendChild(ul);
+               }
+            }
+            xhr.open("GET","https://api.myjson.com/bins/179wey");
+            xhr.send();
+        }
+    }
+</script>
+</body>
+</html>

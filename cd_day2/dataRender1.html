@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#">
+    <input type="text" name="bname">
+    <input type="number" step="0.5" name="price">
+    <input type="submit">
+</form>
+    <div id="booklist">
+        <table>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>bookName</th>
+                <th>price</th>
+            </tr>
+            </thead>
+
+        </table>
+    </div>
+<script>
+    var books=[{id:1,bname:'thiking in java',price:23.45},
+        {id:1,bname:'javascript to...',price:35.45},
+        {id:1,bname:'python',price:123.45},
+        {id:1,bname:'c++',price:29.45}];
+    function createTbody() {
+       let tbody=document.createElement("tbody");
+       books.forEach((book)=>{
+           let tr=document.createElement("tr");
+           let idTd=document.createElement("td");
+           let bnameTd=document.createElement("td");
+           let priceTd=document.createElement("td");
+           idTd.innerHTML=book.id;
+           bnameTd.innerHTML=book.bname;
+           priceTd.innerHTML=book.price;
+
+           tr.appendChild(idTd);
+           tr.appendChild(bnameTd);
+           tr.appendChild(priceTd);
+           tbody.appendChild(tr);
+       });
+       document.querySelector("table").appendChild(tbody);
+    }
+
+    document.querySelector("form").onsubmit=function(event){
+        event.preventDefault();
+        let bname=document.querySelector("input[name=bname]").value;
+        let price=document.querySelector("input[name=price]").value;
+        let book={id:4,bname:bname,price:price};
+        let tr=document.createElement("tr");
+        let idTd=document.createElement("td");
+        let bnameTd=document.createElement("td");
+        let priceTd=document.createElement("td");
+        idTd.innerHTML=book.id;
+        bnameTd.innerHTML=book.bname;
+        priceTd.innerHTML=book.price;
+        tr.appendChild(idTd);
+        tr.appendChild(bnameTd);
+        tr.appendChild(priceTd);
+        document.querySelector("tbody").appendChild(tr);
+
+
+    }
+
+     createTbody();
+    
+</script>
+</body>
+</html>

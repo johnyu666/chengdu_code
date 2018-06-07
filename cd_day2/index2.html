@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        body{
+            background-color: #bbbbbb;
+
+        }
+        table{
+            width: 60%;
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+        table td{
+            border: 1px solid gray;
+        }
+        .even{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<button id="test">test</button>
+    <div id="john"></div>
+    <ul style="color: red">
+        <li class="even"><sapn>dafds</sapn></li>
+        <li>abc</li>
+        <li class="even">abc</li>
+    </ul>
+
+    <table>
+        <tr class="even">
+            <td>abc</td>
+            <td>abc</td>
+            <td>abc</td>
+        </tr>
+        <tr>
+            <td>abc</td>
+            <td>abc</td>
+            <td>abc</td>
+        </tr>
+        <tr class="even">
+            <td>abc</td>
+            <td>abc</td>
+            <td>abc</td>
+        </tr>
+    </table>
+
+    <div id="wraper">
+        <div id="header"></div>
+        <div id="leftBar"></div>
+        <div id="content"></div>
+        <div id="footer"></div>
+    </div>
+
+
+<script type="text/javascript">
+
+
+    let btn1=document.getElementById("test");//Element
+    let btn2=document.getElementsByTagName("button")[0];//NodeList
+    function clickHandle(event) {
+        console.log(event);
+        alert("hello world!!!")
+        }
+    //btn2.onclick=clickHandle;
+    btn2.addEventListener("click",clickHandle);
+    btn2.addEventListener("click",function (event) {
+        alert("hello world!!!");
+    })
+    btn2.removeEventListener("click",clickHandle);
+    let ul=document.querySelector("ul");
+    let li=document.querySelector("li");
+    ul.onclick=function () {
+        alert("ul click....")
+    }
+    li.onclick=function (event) {
+        alert("li click....")
+        event.stopPropagation();
+    }
+
+
+</script>
+</body>
+</html>

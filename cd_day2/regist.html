@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#">
+    <input type="text" name="uname"><sapn></sapn><br>
+    <input type="text" name="email"><span></span><br>
+    <input type="text" name="age"><span></span><br>
+
+    <input type="submit">
+</form>
+<script type="text/javascript">
+   // window.onload=function () {
+
+       let unameR=/^[a-zA-Z_]\w{3,8}/;
+       let emailR=/^\w+@\w+(\.\w{2,4})+$/;
+
+       var uname=document.querySelector("input[name=uname]");
+       let age=document.querySelector("input[name=age]");
+       let email=document.querySelector("input[name=email]");
+        function checkByRegexp(input,reg,msg) {
+            input.nextSibling.innerHTML="";
+            if(!reg.test(input.value)){
+
+                input.nextSibling.innerHTML=msg;
+                return false;
+            }
+            return true;
+        }
+        function checkAge(){
+            age.nextSibling.innerHTML="";
+            let value=Number.parseInt(age.value);
+            if(Number.isNaN(value)){
+                age.nextSibling.innerHTML="不是数字";
+                return false;
+            }
+            if(value<0 ||value>120){
+                age.nextSibling.innerHTML="不是人类";
+                return false;
+            }
+            return true;
+        }
+
+
+
+        uname.onblur=function(){
+            checkByRegexp(uname,unameR,"名称有误");
+        }
+
+       email.onblur=function(){
+           checkByRegexp(email,emailR,"邮箱有误");
+
+       }
+       age.onblur=function(){
+            checkAge();
+       }
+       document.querySelector("form").onsubmit=function(event){
+           let b1=checkByRegexp(uname,unameR,"名称有误");
+           let b2=checkByRegexp(email,emailR,"邮箱有误");
+           let b3=checkAge();
+           if(!(b1&&b2&&b3)){
+               event.preventDefault();
+           }
+
+       }
+
+   // }
+
+</script>
+
+</body>
+</html>
