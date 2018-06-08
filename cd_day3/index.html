@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+    <style type="text/css">
+        .tip{
+            background-color: yellow;
+            color: red;
+            border: 1px solid green;
+        }
+        #show{
+            width: 150px;
+            height: 150px;
+            background-color: red;
+            position: absolute;
+        }
+
+    </style>
+</head>
+<body>
+<ul>
+    <button id="ajax">ajax</button>
+    <button id="test">test</button>
+    <button id="test1">test1</button>
+    <div id="show"></div>
+
+
+    <p>p1</p>
+    <li name="john">abc</li>
+    <li id="i1">abc</li>
+    <li><span>abd</span></li>
+</ul>
+<div>
+    <li class="a">123</li>
+    <li name="tom" class="a">123</li>
+    <li></li>
+    <li name="jack">123</li>
+</div>
+<script type="text/javascript">
+    var user={name:'john',age:100};
+    $(function () {
+        $("p").on("click",function (event) {
+            $(this).toggleClass("tip");
+        });
+        $("#test1").on("click",(event)=>{
+            $("#show").fadeToggle(2000);
+        });
+
+
+    });
+
+    $(function () {
+        $("#ajax").on("click",(event)=>{
+            $.ajax({url:'http://60.205.223.43:7005/books/',method:'GET'})
+                .done((msg)=>{
+                    console.log(msg)
+                });
+        });
+
+
+    });
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #bookUpdatePan{
+           width: 300px;
+            height: 200px;
+            background-color: #aaa;
+            position: absolute;
+            left: 200px;
+            top: 100px;
+            display: none;
+        }
+    </style>
+
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <h1>图书管理器</h1>
+    <div id="addBookPan">
+        <form action="#">
+            <input type="text" name="bname">
+            <input type="number" step="0.5" name="price">
+            <input type="submit">
+        </form>
+    </div>
+    <div id="bookList">
+        <table>
+            <thead>
+            <tr>
+                <th>bookId</th>
+                <th>bookName</th>
+                <th>price</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+    </div>
+    <div id="bookUpdatePan">
+        <form action="#">
+            <input type="text" name="bname">
+            <input type="number" step="0.5" name="price">
+            <input type="submit">
+        </form>
+
+    </div>
+
+    <script>
+        $(function () {
+            let books=null;
+            let url="http://localhost:3000/books";
+            let currentBook=null;
+            function init() {
+                let opts={url:url,method:'GET'};
+                $.ajax(opts)
+                    .done((bks)=>{
+                        books=bks;
+                        render();
+                    });
+            }
+
+            function render() {
+                $("#bookList tbody").empty();
+                books.forEach((book)=>{
+                    $("<tr>")
+                        .data("book",book)
+                        .append($("<td>").text(book.id))
+                        .append($("<td>").text(book.bname))
+                        .append($("<td>").text(book.price))
+                        .append($("<td>").append($("<button>").text("删除")))
+                        .appendTo($("#bookList tbody"));
+                })
+                $("#bookList button").on('click',(event)=>{
+                    deleteBook(event);
+                })
+
+                $("#bookList tbody tr").on("dblclick",(event)=>{
+                    let book=$(event.target).parents('tr').data("book");
+                    currentBook=book;
+                    $("#bookUpdatePan input[name=bname]").val(book.bname);
+                    $("#bookUpdatePan input[name=price]").val(book.price);
+
+                    $("#bookUpdatePan").css({display:'block'});
+                });
+            }
+
+
+            function addBook() {
+                let bname=$("#addBookPan input[name=bname]").val();
+                let price=$("#addBookPan input[name=price]").val();
+                let book={bname:bname,price:price};
+                let opt={url:url,method:"POST"};
+                opt.contentType="application/json";
+                opt.data=JSON.stringify(book);
+                $.ajax(opt)
+                    .done((book)=>{
+                        books.push(book);
+                        render();
+                    })
+            }
+
+            function deleteBook(event) {
+                let book=$(event.target).parents("tr").data("book");
+                let opt={url:url+"/"+book.id,method:"DELETE"};
+                $.ajax(opt)
+                    .done((o)=>{
+                        let index=books.indexOf(book);
+                       books.splice(index,1);
+                       render();
+                });
+
+            }
+
+            $("#addBookPan form").on("submit",(event)=>{
+                event.preventDefault();
+                addBook();
+            });
+            $("#bookUpdatePan form").on('submit',(event)=>{
+                event.preventDefault();
+                let bname=$("#bookUpdatePan input[name=bname]").val();
+                let price=$("#bookUpdatePan input[name=price]").val();
+                let book={id:currentBook.id,bname:bname,price:price};
+                let opt={url:url+"/"+currentBook.id,method:"PUT"};
+                opt.data=JSON.stringify(book);
+                opt.contentType="application/json";
+
+                $.ajax(opt)
+                    .done((book)=>{
+                        let index=books.indexOf(currentBook);
+                        books.splice(index,1,book);
+
+                        $("#bookUpdatePan").css({display:'none'});
+                        render();
+                    })
+
+            })
+
+
+            init();
+
+        });
+    </script>
+</body>
+</html>
